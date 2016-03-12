@@ -25,7 +25,7 @@
 // definiujemy maskê dla naszego bufora
 #define UART_RX_BUF_MASK ( UART_RX_BUF_SIZE - 1)
 
-#define UART_TX_BUF_SIZE 16 // definiujemy bufor o rozmiarze 16 bajtów
+#define UART_TX_BUF_SIZE 32 // definiujemy bufor o rozmiarze 32 bajtów
 // definiujemy maskê dla naszego bufora
 #define UART_TX_BUF_MASK ( UART_TX_BUF_SIZE - 1)
 

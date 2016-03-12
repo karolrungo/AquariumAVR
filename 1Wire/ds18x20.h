@@ -22,7 +22,7 @@
 #include "onewire.h"
 
 
-#define MAXSENSORS 1	// <----- Tutaj definiujemy maksymaln¹ iloœæ czujników
+#define MAXSENSORS 4	// <----- Tutaj definiujemy maksymaln¹ iloœæ czujników
 
 
 /* return values */
