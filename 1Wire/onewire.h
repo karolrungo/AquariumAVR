@@ -24,7 +24,7 @@
 /*******************************************/
 
 /* Wybór PINu oraz PORTu na magistralê 1Wire */
-#define OW_PIN  PD5
+#define OW_PIN  PD6
 #define OW_IN   PIND
 #define OW_OUT  PORTD
 #define OW_DDR  DDRD

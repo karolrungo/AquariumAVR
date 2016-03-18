@@ -41,7 +41,12 @@ int main(void)
 
 	while(1)
 	{
-		//uart_puts("DUPA");
+		uint8_t ile = search_sensors();
+		lcd_int(ile);
+		_delay_ms(750);
+		uart_puts("Ile czujnikow: ");
+		uart_putint(ile,10);
+		uart_puts("\r\n");
 	}
 return 0;
 }
