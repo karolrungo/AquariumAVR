@@ -10,8 +10,11 @@
 #include "../UART/uart.h"
 #include "Logger.h"
 
-#define MAX_MESSAGE_LEN 64
+#define MAX_MESSAGE_LEN 128
 #define MAX_INTEGER_BITS 8
+
+static char g_integer_buffer[MAX_INTEGER_BITS];
+static char g_message[MAX_MESSAGE_LEN];
 
 void LOG_init()
 {
@@ -20,18 +23,21 @@ void LOG_init()
 
 void LOG_RegisterValue(const char* p_registerName, uint8_t p_registerValue)
 {
-	char l_integer_buffer[MAX_INTEGER_BITS];
-	itoa(p_registerValue, l_integer_buffer, 2);
-
-	char l_message[MAX_MESSAGE_LEN];
-	sprintf(l_message, "%s= 0b%s\r\n", p_registerName, l_integer_buffer);
-	uart_puts(&l_message[0]);
+	itoa(p_registerValue, g_integer_buffer, 2);
+	sprintf(g_message, "%s= 0b%s\r\n", p_registerName, g_integer_buffer);
+	uart_puts(&g_message[0]);
 }
 
 void LOG_Line(const char* p_line)
 {
-	char l_message[MAX_MESSAGE_LEN];
-	sprintf(l_message, "%s\r\n", p_line);
-	uart_puts(&l_message[0]);
+	sprintf(g_message, "%s\r\n", p_line);
+	uart_puts(&g_message[0]);
+}
+
+void LOG_LineWithValue(const char* p_line, uint16_t p_value)
+{
+	itoa(p_value, g_integer_buffer, 10);
+	sprintf(g_message, "%s= %s\r\n", p_line, g_integer_buffer);
+	uart_puts(&g_message[0]);
 }
 

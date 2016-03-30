@@ -9,10 +9,6 @@
 
 #include <avr/io.h>
 
-#define LED_ALARM_DIR DDRD
-#define LED_ALARM_PORT PORTD
-#define LED_ALARM PD7
-
 void setAlarmLedAsOutput();
 void setAlarmLedOn();
 void setAlarmLedOff();

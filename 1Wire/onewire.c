@@ -19,7 +19,7 @@
 
 
 #include "onewire.h"
-
+#include "../Utilities/PinDefinitions.h"
 
 #define OW_GET_IN()   ( OW_IN & (1<<OW_PIN))
 #define OW_OUT_LOW()  ( OW_OUT &= (~(1 << OW_PIN)) )

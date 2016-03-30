@@ -25,28 +25,24 @@ int main(void)
 	sei(); //enable global interrupts
 	LOG_init();
 
-
-	LOG_Line("LCD initialization started");
 	lcd_init();
-	LOG_Line("LCD initialization finished");
-
-	LOG_Line("Programmable timers initialization started");
 	initProgrammableTimers();
-	LOG_Line("Programmable timers initialization finished");
 
 	setAlarmLedAsOutput();
 	setAlarmLedOff();
 
-	lcd_backgroundLedOn();
+	registerTimer(3000);
+
+
 
 	while(1)
 	{
 		uint8_t ile = search_sensors();
 		lcd_int(ile);
-		_delay_ms(750);
-		uart_puts("Ile czujnikow: ");
-		uart_putint(ile,10);
-		uart_puts("\r\n");
+		SoftwareTimerEvents();
+		//uart_puts("Ile czujnikow: ");
+	//	uart_putint(ile,10);
+	//	uart_puts("\r\n");
 	}
 return 0;
 }

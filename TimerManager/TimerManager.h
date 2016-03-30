@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+typedef uint16_t Miliseconds;
+typedef uint8_t TimerID;
+
 #define TIMERS_NUMBER 8
 
 typedef struct Timer
@@ -13,9 +16,12 @@ typedef struct Timer
 	uint16_t m_latency;
 } Timer;
 
-
-
 void initProgrammableTimers();
 void initTimer0_10ms_ctc();
+bool registerTimer(const Miliseconds p_miliseconds);
+void SoftwareTimerEvents();
+
+static TimerID getFirstFreeTimerInPool();
+static const Miliseconds setLatency(const Miliseconds p_miliseconds);
 
 #endif

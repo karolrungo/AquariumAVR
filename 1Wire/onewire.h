@@ -20,18 +20,6 @@
 #include <inttypes.h>
 
 /*******************************************/
-/* Hardware connection                     */
-/*******************************************/
-
-/* Wybór PINu oraz PORTu na magistralê 1Wire */
-#define OW_PIN  PD6
-#define OW_IN   PIND
-#define OW_OUT  PORTD
-#define OW_DDR  DDRD
-
-
-
-/*******************************************/
 
 #define OW_MATCH_ROM	0x55
 #define OW_SKIP_ROM	    0xCC

@@ -13,5 +13,6 @@
 void LOG_init();
 void LOG_RegisterValue(const char* p_registerName, uint8_t p_registerValue);
 void LOG_Line(const char* p_line);
+void LOG_LineWithValue(const char* p_line, uint16_t p_value);
 
 #endif /* UTILITIES_LOGGER_H_ */

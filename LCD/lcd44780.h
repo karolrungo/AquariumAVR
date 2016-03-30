@@ -38,37 +38,6 @@
 #define USE_RW 1
 
 //----------------------------------------------------------------------------------------
-//
-//		Ustawienia sprzêtowe po³¹czeñ sterownika z mikrokontrolerem
-//
-//----------------------------------------------------------------------------------------
-// tu konfigurujemy port i piny do jakich pod³¹czymy linie D7..D4 LCD
-#define LCD_D7PORT  B
-#define LCD_D7 0
-#define LCD_D6PORT  B
-#define LCD_D6 1
-#define LCD_D5PORT  B
-#define LCD_D5 2
-#define LCD_D4PORT  B
-#define LCD_D4 3
-
-
-// tu definiujemy piny procesora do których pod³¹czamy sygna³y RS,RW, E
-#define LCD_RSPORT B
-#define LCD_RS 4
-
-#define LCD_RWPORT B
-#define LCD_RW 5
-
-#define LCD_EPORT B
-#define LCD_E 6
-
-#define LCD_BACKGROUNDPORT B
-#define LCD_BL 7
-//------------------------------------------------  koniec ustawieñ sprzêtowych ---------------
-
-
-//----------------------------------------------------------------------------------------
 //****************************************************************************************
 //*																						 *
 //*		U S T A W I E N I A   KOMPILACJI												 *

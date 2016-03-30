@@ -5,6 +5,7 @@
  *      Author: Karol
  */
 #include "led.h"
+#include "../Utilities/PinDefinitions.h"
 
 void setAlarmLedAsOutput()
 {
