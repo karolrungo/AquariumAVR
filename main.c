@@ -15,10 +15,18 @@
 #include "Utilities/Logger.h"
 #include "1Wire/ds18x20.h"
 
-
-#include <avr/delay.h>
-
-
+void timerCallback1()
+{
+	LOG_Line("Jestem callback'iem 1!");
+}
+void timerCallback2()
+{
+	LOG_Line("Jestem callback'iem 2!");
+}
+void timerCallback3()
+{
+	LOG_Line("Jestem callback'iem 3!");
+}
 
 int main(void)
 {
@@ -26,23 +34,18 @@ int main(void)
 	LOG_init();
 
 	lcd_init();
-	initProgrammableTimers();
+	initSoftwareTimers();
 
 	setAlarmLedAsOutput();
 	setAlarmLedOff();
 
-	registerTimer(3000);
+	registerTimer(1000, &timerCallback1);
+	registerTimer(3000, &timerCallback2);
+	registerTimer(5000, &timerCallback3);
 
-
-
-	while(1)
+	while(true)
 	{
-		uint8_t ile = search_sensors();
-		lcd_int(ile);
-		SoftwareTimerEvents();
-		//uart_puts("Ile czujnikow: ");
-	//	uart_putint(ile,10);
-	//	uart_puts("\r\n");
+		softwareTimersEvents();
 	}
 return 0;
 }

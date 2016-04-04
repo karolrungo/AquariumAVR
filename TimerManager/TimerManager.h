@@ -14,14 +14,11 @@ typedef struct Timer
 	bool m_isRunning;
 	bool m_isOneShot;
 	uint16_t m_latency;
+	void(*m_callback)(void);
 } Timer;
 
-void initProgrammableTimers();
-void initTimer0_10ms_ctc();
-bool registerTimer(const Miliseconds p_miliseconds);
-void SoftwareTimerEvents();
-
-static TimerID getFirstFreeTimerInPool();
-static const Miliseconds setLatency(const Miliseconds p_miliseconds);
+void initSoftwareTimers();
+bool registerTimer(const Miliseconds p_miliseconds, void(*p_callback)(void));
+void softwareTimersEvents();
 
 #endif

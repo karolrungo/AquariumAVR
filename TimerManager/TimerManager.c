@@ -7,23 +7,31 @@
  */
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stddef.h>
 
 #include "TimerManager.h"
 #include "../Utilities/Logger.h"
+#include "../Utilities/Int2Bin.h"
 
 Timer g_timersPool [TIMERS_NUMBER];
 
-static TimerID NO_FREE_ID= -1;
+static TimerID NO_FREE_ID = -1;
 
-void initProgrammableTimers()
+static void initTimer0_10ms_ctc();
+static TimerID getFirstFreeTimerInPool();
+static void logTimerData(const uint8_t p_timerId);
+static const Miliseconds setLatency(const Miliseconds p_miliseconds);
+
+void initSoftwareTimers()
 {
 	LOG_Line("Programmable timers initialization started");
 	initTimer0_10ms_ctc();
 
-	LOG_Line("Timers pool initialization: isRunning= false, isPeriodic= false, latency= 0ms");
-	for(uint8_t i = 0; i< TIMERS_NUMBER; ++i)
+	LOG_Line("Timers pool initialization:");
+	for(uint8_t id = 0; id< TIMERS_NUMBER; ++id)
 	{
-		g_timersPool[i] = (Timer){false, false, 0};
+		g_timersPool[id] = (Timer){false, false, 0, NULL};
+		logTimerData(id);
 	}
 	LOG_Line("Timers pool initialization finished");
 	LOG_Line("Programmable timers initialization finished");
@@ -37,12 +45,12 @@ void initTimer0_10ms_ctc()
 	TIMSK |= (1<<OCIE0);
 
 	LOG_Line("Timer0 configuration");
-	LOG_RegisterValue("TCCR0", TCCR0);
-	LOG_RegisterValue("OCR0", OCR0);
-	LOG_RegisterValue("TIMSK", TIMSK);
+	LOG_Line("TCCR0= %s", int2bin(TCCR0));
+	LOG_Line("OCR0= %s", int2bin(OCR0));
+	LOG_Line("TIMSK= %s", int2bin(TIMSK));
 }
 
-bool registerTimer(const Miliseconds p_miliseconds)
+bool registerTimer(const Miliseconds p_miliseconds, void(*p_callback)(void))
 {
 	TimerID l_TimerId = getFirstFreeTimerInPool();
 	if(l_TimerId == NO_FREE_ID)
@@ -51,11 +59,11 @@ bool registerTimer(const Miliseconds p_miliseconds)
 		return false;
 	}
 
-	LOG_LineWithValue("Timer registered with id", l_TimerId);
-	LOG_LineWithValue("Timer latency in miliseconds", p_miliseconds);
 	g_timersPool[l_TimerId].m_isRunning = true;
 	g_timersPool[l_TimerId].m_isOneShot = false;
 	g_timersPool[l_TimerId].m_latency = setLatency(p_miliseconds);
+	g_timersPool[l_TimerId].m_callback = p_callback;
+	logTimerData(l_TimerId);
 
 	return true;
 }
@@ -72,19 +80,43 @@ TimerID getFirstFreeTimerInPool()
 	return NO_FREE_ID;
 }
 
-const Miliseconds setLatency(const Miliseconds p_miliseconds)
+static const Miliseconds setLatency(const Miliseconds p_miliseconds)
 {
 	//timer tick everys 10ms so division by 10 needed
 	return p_miliseconds / 10;
 }
 
-void SoftwareTimerEvents()
+static void logTimerData(const uint8_t p_timerId)
+{
+	LOG_Line("Timer[%d]: isRunning= %d, isPeriodic= %d, latency= %d[ms], callback= %x",
+			p_timerId,
+			g_timersPool[p_timerId].m_isRunning,
+			g_timersPool[p_timerId].m_isOneShot,
+			g_timersPool[p_timerId].m_latency,
+			g_timersPool[p_timerId].m_callback);
+}
+
+void softwareTimersEvents()
 {
 	if(!g_timersPool[0].m_latency && g_timersPool[0].m_isRunning)
 	{
-		LOG_Line("tryklo!");
-
+		LOG_Line("dupa!");
+		g_timersPool[0].m_callback();
 		g_timersPool[0].m_isRunning = false;
+	}
+
+	if(!g_timersPool[1].m_latency && g_timersPool[1].m_isRunning)
+	{
+		LOG_Line("dupa!");
+		g_timersPool[1].m_callback();
+		g_timersPool[1].m_isRunning = false;
+	}
+
+	if(!g_timersPool[2].m_latency && g_timersPool[2].m_isRunning)
+	{
+		LOG_Line("dupa!");
+		g_timersPool[2].m_callback();
+		g_timersPool[2].m_isRunning = false;
 	}
 }
 
@@ -94,5 +126,11 @@ ISR(TIMER0_COMP_vect)
 
 	l_timeLeft = g_timersPool[0].m_latency;
     if (l_timeLeft)g_timersPool[0].m_latency = --l_timeLeft;
+
+    l_timeLeft = g_timersPool[1].m_latency;
+    if (l_timeLeft)g_timersPool[1].m_latency = --l_timeLeft;
+
+    l_timeLeft = g_timersPool[2].m_latency;
+    if (l_timeLeft)g_timersPool[2].m_latency = --l_timeLeft;
 }
 
