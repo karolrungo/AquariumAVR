@@ -39,7 +39,9 @@ int main(void)
 	setAlarmLedAsOutput();
 	setAlarmLedOff();
 
-	registerTimer(1000, &timerCallback1);
+	registerTimer(0, &timerCallback1);
+	registerTimer(-1568, &timerCallback1);
+	registerTimer(1007, &timerCallback1);
 	registerTimer(3000, &timerCallback2);
 	registerTimer(5000, &timerCallback3);
 

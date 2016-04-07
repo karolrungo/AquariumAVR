@@ -6,17 +6,17 @@
 
 #define TIMERS_NUMBER 8
 
-typedef uint16_t Miliseconds;
+typedef int16_t Miliseconds;
 typedef uint8_t TimerID;
 typedef void(*Callback)(void);
 
 typedef struct Timer
 {
-	bool m_isRunning;
-	bool m_isOneShot;
-	Miliseconds m_latency;
-	Miliseconds m_timeLeft;
-	void(*m_callback)(void);
+	bool isRunning;
+	bool isOneShot;
+	Miliseconds latency;
+	Miliseconds timeLeft;
+	void(*callback)(void);
 } Timer;
 
 void initSoftwareTimers(void);
