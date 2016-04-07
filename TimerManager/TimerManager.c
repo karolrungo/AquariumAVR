@@ -20,7 +20,6 @@ static TimerID NO_FREE_ID = -1;
 static void initTimer0_10ms_ctc();
 static TimerID getFirstFreeTimerInPool();
 static void logTimerData(const TimerID p_timerId);
-static const Miliseconds setLatency(const Miliseconds p_miliseconds);
 static bool timerShoulBeStopped(const TimerID p_timerId);
 static void handleTimerCallback(const TimerID p_timerId);
 static void restartTimer(const TimerID p_timerId);
@@ -48,9 +47,8 @@ static void initTimer0_10ms_ctc()
 	TIMSK |= (1<<OCIE0);
 
 	LOG_Line("Timer0 configuration");
-	LOG_Line("TCCR0= %s", int2bin(TCCR0));
-	LOG_Line("OCR0= %s", int2bin(OCR0));
-	LOG_Line("TIMSK= %s", int2bin(TIMSK));
+	LOG_Line("TCCR0= %s, OCR0= %s, TIMSK= %s",
+			int2bin(TCCR0), int2bin(OCR0), int2bin(TIMSK));
 }
 
 bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
@@ -64,8 +62,8 @@ bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
 
 	g_timersPool[l_TimerId].m_isRunning = true;
 	g_timersPool[l_TimerId].m_isOneShot = false;
-	g_timersPool[l_TimerId].m_latency = setLatency(p_miliseconds);
-	g_timersPool[l_TimerId].m_timeLeft = g_timersPool[l_TimerId].m_latency;
+	g_timersPool[l_TimerId].m_latency = p_miliseconds;
+	g_timersPool[l_TimerId].m_timeLeft = g_timersPool[l_TimerId].m_latency / 10;
 	g_timersPool[l_TimerId].m_callback = p_callback;
 	logTimerData(l_TimerId);
 
@@ -95,12 +93,6 @@ static TimerID getFirstFreeTimerInPool(void)
 		}
 	}
 	return NO_FREE_ID;
-}
-
-static const Miliseconds setLatency(const Miliseconds p_miliseconds)
-{
-	//timer tick everys 10ms so division by 10 needed
-	return p_miliseconds / 10;
 }
 
 static void logTimerData(const TimerID p_timerId)
@@ -133,7 +125,7 @@ static void restartTimer(const TimerID p_timerId)
 	if(!g_timersPool[p_timerId].m_isOneShot)
 	{
 		g_timersPool[p_timerId].m_isRunning = true;
-		g_timersPool[p_timerId].m_timeLeft = g_timersPool[p_timerId].m_latency;
+		g_timersPool[p_timerId].m_timeLeft = g_timersPool[p_timerId].m_latency / 10;
 		//logTimerData(p_timerId);
 	}
 }
