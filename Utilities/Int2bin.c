@@ -10,8 +10,7 @@
 
 const char* int2bin(const int p_integer)
 {
-    static char l_binary[9];
-    l_binary[0] = '\0';
+    char l_binary[9];
 
     int i;
     for (i = 128; i > 0; i >>= 1)

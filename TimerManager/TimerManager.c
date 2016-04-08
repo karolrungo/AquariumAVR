@@ -11,6 +11,7 @@
 #include <stdbool.h>
 
 #include "TimerManager.h"
+// Add project root to include path
 #include "../Utilities/Logger.h"
 #include "../Utilities/Int2Bin.h"
 
@@ -20,7 +21,7 @@ static TimerID NO_FREE_ID = -1;
 static void initTimer0_10ms_ctc();
 static TimerID getFirstFreeTimerInPool();
 static void logTimerData(const TimerID p_timerId);
-static bool timerShoulBeStopped(const TimerID p_timerId);
+static bool timerShouldBeStopped(const TimerID p_timerId);
 static void handleTimerCallback(const TimerID p_timerId);
 static void restartTimer(const TimerID p_timerId);
 
@@ -78,7 +79,7 @@ bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
 
 void softwareTimersEvents(void)
 {
-	for(TimerID id=0; id<TIMERS_NUMBER; ++id)
+	for(TimerID id = 0; id < TIMERS_NUMBER; ++id)
 	{
 		if(timerShoulBeStopped(id))
 		{
@@ -113,7 +114,7 @@ static void logTimerData(const TimerID p_timerId)
 			g_timersPool[p_timerId].callback);
 }
 
-static bool timerShoulBeStopped(const TimerID p_timerId)
+static bool timerShouldBeStopped(const TimerID p_timerId)
 {
 	return  g_timersPool[p_timerId].timeLeft < 0 &&
 			g_timersPool[p_timerId].isRunning;
@@ -139,13 +140,13 @@ static void restartTimer(const TimerID p_timerId)
 
 ISR(TIMER0_COMP_vect)
 {
-	for(TimerID id=0; id<TIMERS_NUMBER; ++id)
+	for(TimerID id = 0; id < TIMERS_NUMBER; ++id)
 	{
-	    if (g_timersPool[id].timeLeft >= 0)
-	    {
-	    	//interrupt occurs every 10ms so substract 10
+		if (g_timersPool[id].timeLeft >= 0)
+		{
+			//interrupt occurs every 10ms so substract 10
 			g_timersPool[id].timeLeft -= 10;
-	    }
+		}
 	}
 }
 
