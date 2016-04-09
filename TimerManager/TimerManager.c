@@ -20,7 +20,7 @@ static TimerID NO_FREE_ID = -1;
 static void initTimer0_10ms_ctc();
 static TimerID getFirstFreeTimerInPool();
 static void logTimerData(const TimerID p_timerId);
-static bool timerShoulBeStopped(const TimerID p_timerId);
+static bool timerShouldBeStopped(const TimerID p_timerId);
 static void handleTimerCallback(const TimerID p_timerId);
 static void restartTimer(const TimerID p_timerId);
 
@@ -30,7 +30,7 @@ void initSoftwareTimers()
 	initTimer0_10ms_ctc();
 
 	LOG_Line("Timers pool initialization:");
-	for(uint8_t id = 0; id< TIMERS_NUMBER; ++id)
+	for(uint8_t id = 0; id < TIMERS_NUMBER; ++id)
 	{
 		g_timersPool[id] = (Timer){false, true, 0, 0, NULL};
 		logTimerData(id);
@@ -78,9 +78,9 @@ bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
 
 void softwareTimersEvents(void)
 {
-	for(TimerID id=0; id<TIMERS_NUMBER; ++id)
+	for(TimerID id=0; id< TIMERS_NUMBER; ++id)
 	{
-		if(timerShoulBeStopped(id))
+		if(timerShouldBeStopped(id))
 		{
 			handleTimerCallback(id);
 			g_timersPool[id].isRunning = false;
@@ -91,11 +91,11 @@ void softwareTimersEvents(void)
 
 static TimerID getFirstFreeTimerInPool(void)
 {
-	for(TimerID i=0; i<TIMERS_NUMBER; ++i)
+	for(TimerID id = 0; id < TIMERS_NUMBER; ++id)
 	{
-		if(!g_timersPool[i].isRunning)
+		if(!g_timersPool[id].isRunning)
 		{
-			return i;
+			return id;
 		}
 	}
 	return NO_FREE_ID;
@@ -113,7 +113,7 @@ static void logTimerData(const TimerID p_timerId)
 			g_timersPool[p_timerId].callback);
 }
 
-static bool timerShoulBeStopped(const TimerID p_timerId)
+static bool timerShouldBeStopped(const TimerID p_timerId)
 {
 	return  g_timersPool[p_timerId].timeLeft < 0 &&
 			g_timersPool[p_timerId].isRunning;
@@ -139,13 +139,13 @@ static void restartTimer(const TimerID p_timerId)
 
 ISR(TIMER0_COMP_vect)
 {
-	for(TimerID id=0; id<TIMERS_NUMBER; ++id)
+	for(TimerID id = 0; id < TIMERS_NUMBER; ++id)
 	{
-	    if (g_timersPool[id].timeLeft >= 0)
-	    {
-	    	//interrupt occurs every 10ms so substract 10
+		if (g_timersPool[id].timeLeft >= 0)
+		{
+			//interrupt occurs every 10ms so substract 10
 			g_timersPool[id].timeLeft -= 10;
-	    }
+		}
 	}
 }
 

@@ -7,14 +7,14 @@
 #include "Int2Bin.h"
 
 #include <string.h>
+#include <stdint.h>
 
 const char* int2bin(const int p_integer)
 {
-    static char l_binary[9];
-    l_binary[0] = '\0';
+	static char l_binary[9];
+	l_binary[0] = '\0';
 
-    int i;
-    for (i = 128; i > 0; i >>= 1)
+    for (uint8_t i = 128; i > 0; i >>= 1)
     {
         strcat(l_binary, ((p_integer & i) == i) ? "1" : "0");
     }
