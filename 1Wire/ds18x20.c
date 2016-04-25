@@ -56,7 +56,7 @@ uint8_t DS18X20_meas_to_cel( uint8_t fc, uint8_t *sp,
 	// clear undefined bits for B != 12bit
 	if ( fc == DS18B20_ID ) { // check resolution 18B20
 		i = sp[DS18B20_CONF_REG];
-		if ( (i & DS18B20_12_BIT) == DS18B20_12_BIT ) ;
+		if ( (i & DS18B20_12_BIT) == DS18B20_12_BIT );
 		else if ( (i & DS18B20_11_BIT) == DS18B20_11_BIT )
 			meas &= ~(DS18B20_11_BIT_UNDF);
 		else if ( (i & DS18B20_10_BIT) == DS18B20_10_BIT )

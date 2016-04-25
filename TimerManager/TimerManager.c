@@ -11,13 +11,12 @@
 #include <stdbool.h>
 
 #include "TimerManager.h"
+#include "HardwareTimers.h"
 #include "../Utilities/Logger.h"
-#include "../Utilities/Int2Bin.h"
 
 static volatile  Timer g_timersPool [TIMERS_NUMBER];
 static TimerID NO_FREE_ID = -1;
 
-static void initTimer0_10ms_ctc();
 static TimerID getFirstFreeTimerInPool();
 static void logTimerData(const TimerID p_timerId);
 static bool timerShouldBeStopped(const TimerID p_timerId);
@@ -27,7 +26,7 @@ static void restartTimer(const TimerID p_timerId);
 void initSoftwareTimers()
 {
 	LOG_Line("Programmable timers initialization started");
-	initTimer0_10ms_ctc();
+	Timer0_init_10ms_ctc();
 
 	LOG_Line("Timers pool initialization:");
 	for(uint8_t id = 0; id < TIMERS_NUMBER; ++id)
@@ -38,18 +37,7 @@ void initSoftwareTimers()
 	LOG_Line("Timers pool initialization finished");
 	LOG_Line("Programmable timers initialization finished");
 }
-static void initTimer0_10ms_ctc()
-{
-	// TIMER 0 - 8bit
-	TCCR0 |= (1<<WGM01); //tryb ctc
-	TCCR0 |= (1<<CS02) | (1<<CS00); //prescaler = 1024
-	OCR0 = 78; //8 000 000 / 1024 / 78 = 100Hz = 10ms
-	TIMSK |= (1<<OCIE0);
 
-	LOG_Line("Timer0 configuration");
-	LOG_Line("TCCR0= %s, OCR0= %s, TIMSK= %s",
-			int2bin(TCCR0), int2bin(OCR0), int2bin(TIMSK));
-}
 
 bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
 {
