@@ -8,23 +8,13 @@
 #ifndef COMMUNICATION_MESSAGEDATA_H_
 #define COMMUNICATION_MESSAGEDATA_H_
 
-#include <avr/io.h>
+#include "Messages/LcdBackground.h"
 
-typedef struct LcdBackround
-{
-	uint8_t isOn;
-}LcdBackround;
-
-typedef struct LcdText
-{
-	uint8_t isOn;
-}LcdText;
-
+//put messages in this union
 typedef union MessageData
 {
 	LcdBackround lcdBackground;
-	LcdText lcdText;
-
+	//other structures
 } MessageData;
 
 #endif /* COMMUNICATION_MESSAGEDATA_H_ */

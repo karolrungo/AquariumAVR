@@ -14,7 +14,7 @@
 
 void handleLcdBackground(const MessageData p_msgData)
 {
-	if(p_msgData.lcdBackground.isOn)
+	if(p_msgData.lcdBackground.turnOn)
 	{
 		LOG_Line("ON");
 		lcd_backgroundLedOn();

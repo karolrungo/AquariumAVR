@@ -10,7 +10,6 @@
 
 typedef enum ServiceAddress
 {
-	SoftwareTimerService,
 	LCD_Service
 } ServiceAddress;
 

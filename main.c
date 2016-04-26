@@ -15,10 +15,13 @@
 #include "Utilities/Logger.h"
 #include "1Wire/ds18x20.h"
 #include "Communication/MessageRouter.h"
+#include "Communication/MessageBuilder.h"
 
 void timerCallback1()
 {
-	LOG_Line("Jestem callback'iem 1!");
+	LOG_Line("Jestem callback'iem 3!");
+
+	sendMessage(0, LCD_Service, buildMessageLcdBackground(true));
 }
 void timerCallback2()
 {
@@ -28,10 +31,7 @@ void timerCallback3()
 {
 	LOG_Line("Jestem callback'iem 3!");
 
-	Message msg;
-	msg.msgData.lcdBackground.isOn = 3;
-	msg.msgType = MSG_LCD_BACKGROUND;
-	sendMessage(0, LCD_Service, msg);
+	sendMessage(0, LCD_Service, buildMessageLcdBackground(false));
 }
 
 int main(void)
@@ -48,7 +48,7 @@ int main(void)
 
 	registerTimer(0, &timerCallback1);
 	registerTimer(-1568, &timerCallback1);
-	//registerTimer(1007, &timerCallback1);
+	registerTimer(1007, &timerCallback1);
 	//registerTimer(3000, &timerCallback2);
 	registerTimer(2000, &timerCallback3);
 
