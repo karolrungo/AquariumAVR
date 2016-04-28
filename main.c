@@ -9,29 +9,38 @@
 
 #include <avr/interrupt.h>
 
-#include "TimerManager/TimerManager.h"
-#include "LED_SERVICE/led.h"
-#include "LCD/lcd44780.h"
+#include "AquariumData/AquariumData.h"
+
 #include "Utilities/Logger.h"
 #include "1Wire/ds18x20.h"
+
 #include "Communication/MessageRouter.h"
 #include "Communication/MessageBuilder.h"
+
+#include "LCD/ServiceLcd.h"
+#include "LED_SERVICE/led.h"
+
+#include "LCD/lcd44780.h"
+#include "Timers/SoftwareTimer.h"
 
 void timerCallback1()
 {
 	LOG_Line("Jestem callback'iem 3!");
-
-	sendMessage(0, LCD_Service, buildMessageLcdBackground(true));
+	//sendMessage(MAIN, LCD_Service, buildMessageLcdBackground(true));
 }
 void timerCallback2()
 {
 	LOG_Line("Jestem callback'iem 2!");
+	sendMessage(MAIN, DS18B20_Service, buildMessageDS18B20TemperatureRequest(0));
 }
 void timerCallback3()
 {
 	LOG_Line("Jestem callback'iem 3!");
+	lcd_cls();
+	lcd_int(temperature);
+	lcd_str(".");
+	lcd_int(temperature_fract_bits);
 
-	sendMessage(0, LCD_Service, buildMessageLcdBackground(false));
 }
 
 int main(void)
@@ -39,18 +48,19 @@ int main(void)
 	sei(); //enable global interrupts
 	LOG_init();
 
-	lcd_init();
+	initLcd();
 	initSoftwareTimers();
 
 	setAlarmLedAsOutput();
 	setAlarmLedOff();
 
 
-	registerTimer(0, &timerCallback1);
-	registerTimer(-1568, &timerCallback1);
-	registerTimer(1007, &timerCallback1);
-	//registerTimer(3000, &timerCallback2);
-	registerTimer(2000, &timerCallback3);
+	registerOneShotTimer(0, &timerCallback1);
+	registerOneShotTimer(-1568, &timerCallback1);
+	registerOneShotTimer(1007, &timerCallback1);
+	registerOneShotTimer(3007, &timerCallback1);
+	registerPeriodicTimer(3000, &timerCallback2);
+	registerPeriodicTimer(4000, &timerCallback3);
 
 	while(true)
 	{

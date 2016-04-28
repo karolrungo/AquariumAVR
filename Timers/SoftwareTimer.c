@@ -5,15 +5,16 @@
  *  Created on: 2 mar 2016
  *      Author: Karol
  */
-
 #include <avr/interrupt.h>
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "TimerManager.h"
+#include "../Timers/SoftwareTimer.h"
+#include "SoftwareTimerBuilder.h"
 #include "HardwareTimers.h"
 #include "../Utilities/Logger.h"
 
+#define TIMERS_NUMBER 8
 static volatile  Timer g_timersPool [TIMERS_NUMBER];
 static TimerID NO_FREE_ID = -1;
 
@@ -39,7 +40,7 @@ void initSoftwareTimers()
 }
 
 
-bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
+bool registerOneShotTimer(const Miliseconds p_miliseconds, Callback p_callback)
 {
 	if(p_miliseconds <= 0)
 	{
@@ -54,11 +55,28 @@ bool registerTimer(const Miliseconds p_miliseconds, Callback p_callback)
 		return false;
 	}
 
-	g_timersPool[l_TimerId].isRunning = true;
-	g_timersPool[l_TimerId].isOneShot = false;
-	g_timersPool[l_TimerId].latency = p_miliseconds;
-	g_timersPool[l_TimerId].timeLeft = g_timersPool[l_TimerId].latency;
-	g_timersPool[l_TimerId].callback = p_callback;
+	g_timersPool[l_TimerId] = buildOneShotTimer(p_miliseconds, p_callback);
+	logTimerData(l_TimerId);
+
+	return true;
+}
+
+bool registerPeriodicTimer(const Miliseconds p_miliseconds, Callback p_callback)
+{
+	if(p_miliseconds <= 0)
+	{
+		LOG_Line("ERROR. Latency should be greater than 0. Timer not started!");
+		return false;
+	}
+
+	TimerID l_TimerId = getFirstFreeTimerInPool();
+	if(l_TimerId == NO_FREE_ID)
+	{
+		LOG_Line("ERROR. No free id for timner. Timer not started!");
+		return false;
+	}
+
+	g_timersPool[l_TimerId] = buildPeriodicalTimer(p_miliseconds, p_callback);
 	logTimerData(l_TimerId);
 
 	return true;

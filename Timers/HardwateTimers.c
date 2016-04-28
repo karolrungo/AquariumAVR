@@ -1,6 +1,6 @@
 #include <avr/io.h>
 
-#include "HardwareTimers.h"
+#include "../Timers/HardwareTimers.h"
 #include "../Utilities/Logger.h"
 #include "../Utilities/Int2Bin.h"
 
