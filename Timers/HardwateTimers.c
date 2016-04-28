@@ -12,7 +12,7 @@ void Timer0_init_10ms_ctc()
 	OCR0 = 78; //8 000 000 / 1024 / 78 = 100Hz = 10ms
 	TIMSK |= (1<<OCIE0);
 
-	LOG_Line("Timer0 configuration");
-	LOG_Line("TCCR0= %s, OCR0= %s, TIMSK= %s",
+	LOG_DEBUG("Timer0 configuration");
+	LOG_DEBUG("TCCR0= %s, OCR0= %s, TIMSK= %s",
 			int2bin(TCCR0), int2bin(OCR0), int2bin(TIMSK));
 }

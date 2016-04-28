@@ -26,17 +26,17 @@ static void restartTimer(const TimerID p_timerId);
 
 void initSoftwareTimers()
 {
-	LOG_Line("Programmable timers initialization started");
+	LOG_DEBUG("Programmable timers initialization started");
 	Timer0_init_10ms_ctc();
 
-	LOG_Line("Timers pool initialization:");
+	LOG_DEBUG("Timers pool initialization:");
 	for(uint8_t id = 0; id < TIMERS_NUMBER; ++id)
 	{
 		g_timersPool[id] = (Timer){false, true, 0, 0, NULL};
 		logTimerData(id);
 	}
-	LOG_Line("Timers pool initialization finished");
-	LOG_Line("Programmable timers initialization finished");
+	LOG_DEBUG("Timers pool initialization finished");
+	LOG_DEBUG("Programmable timers initialization finished");
 }
 
 
@@ -44,14 +44,14 @@ bool registerOneShotTimer(const Miliseconds p_miliseconds, Callback p_callback)
 {
 	if(p_miliseconds <= 0)
 	{
-		LOG_Line("ERROR. Latency should be greater than 0. Timer not started!");
+		LOG_INFO("ERROR. Latency should be greater than 0. Timer not started!");
 		return false;
 	}
 
 	TimerID l_TimerId = getFirstFreeTimerInPool();
 	if(l_TimerId == NO_FREE_ID)
 	{
-		LOG_Line("ERROR. No free id for timner. Timer not started!");
+		LOG_INFO("ERROR. No free id for timner. Timer not started!");
 		return false;
 	}
 
@@ -65,14 +65,14 @@ bool registerPeriodicTimer(const Miliseconds p_miliseconds, Callback p_callback)
 {
 	if(p_miliseconds <= 0)
 	{
-		LOG_Line("ERROR. Latency should be greater than 0. Timer not started!");
+		LOG_INFO("ERROR. Latency should be greater than 0. Timer not started!");
 		return false;
 	}
 
 	TimerID l_TimerId = getFirstFreeTimerInPool();
 	if(l_TimerId == NO_FREE_ID)
 	{
-		LOG_Line("ERROR. No free id for timner. Timer not started!");
+		LOG_INFO("ERROR. No free id for timner. Timer not started!");
 		return false;
 	}
 
@@ -109,7 +109,7 @@ static TimerID getFirstFreeTimerInPool(void)
 
 static void logTimerData(const TimerID p_timerId)
 {
-	LOG_Line("Timer[%d]: running=%d, oneShot=%d, latency=%d[ms], "
+	LOG_DEBUG("Timer[%d]: running=%d, oneShot=%d, latency=%d[ms], "
 			"timeLeft=%d, callback=%x",
 			p_timerId,
 			g_timersPool[p_timerId].isRunning,

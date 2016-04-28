@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 void LOG_init();
-void LOG_Line(const char* format, ...);
+void LOG_INFO(const char* format, ...);
+void LOG_DEBUG(const char* format, ...);
 
 #endif /* UTILITIES_LOGGER_H_ */

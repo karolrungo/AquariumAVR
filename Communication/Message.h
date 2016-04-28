@@ -10,9 +10,11 @@
 
 #include "MessageTypes.h"
 #include "MessageData.h"
+#include "ServiceAddresses.h"
 
 typedef struct Message
 {
+	ServiceAddress destinationAddress;
 	MessageType msgType;
 	MessageData msgData;
 } Message;

@@ -11,15 +11,17 @@
 #include "../1Wire/1WireService.h"
 #include "../LCD/ServiceLcd.h"
 
-static void forwardMsgToService(const ServiceAddress p_destination,  Message p_msg);
+static void forwardMsgToService(Message p_msg);
 
-void sendMessage(const ServiceAddress p_source, const ServiceAddress p_destination, Message p_msg)
+void sendMessage(const ServiceAddress p_source, Message p_msg)
 {
-	LOG_Line("Sending %s from %s to %s", msgType2String(p_msg.msgType), toString(p_source), toString(p_destination));
-	forwardMsgToService(p_destination, p_msg);
+	LOG_INFO("Sending %s from %s to %s", msgType2String(p_msg.msgType),
+										 toString(p_source),
+										 toString(p_msg.destinationAddress));
+	forwardMsgToService(p_msg);
 }
 
-void forwardMsgToService(const ServiceAddress p_destination,  Message p_msg)
+void forwardMsgToService(Message p_msg)
 {
 	switch(p_msg.msgType)
 	{
@@ -31,7 +33,7 @@ void forwardMsgToService(const ServiceAddress p_destination,  Message p_msg)
 		break;
 
 		default:
-			LOG_Line("Not known msg type: %d", p_msg.msgType);
+			LOG_DEBUG("Not known msg type: %d", p_msg.msgType);
 		break;
 	}
 }

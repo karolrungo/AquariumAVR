@@ -12,21 +12,21 @@
 
 void initLcd()
 {
-	LOG_Line("LCD initialization started");
+	LOG_DEBUG("LCD initialization started");
 	lcd_init();
-	LOG_Line("LCD initialization finished");
+	LOG_DEBUG("LCD initialization finished");
 }
 
 void handleLcdBackground(const MessageData p_msgData)
 {
 	if(p_msgData.lcdBackground.turnOn)
 	{
-		LOG_Line("Lcd background ON");
+		LOG_INFO("Lcd background ON");
 		lcd_backgroundLedOn();
 	}
 	else
 	{
-		LOG_Line("Lcd background OFF");
+		LOG_INFO("Lcd background OFF");
 		lcd_backgroundLedOff();
 	}
 }

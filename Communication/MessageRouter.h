@@ -11,6 +11,6 @@
 #include "ServiceAddresses.h"
 #include "Message.h"
 
-void sendMessage(const ServiceAddress, const ServiceAddress, const Message);
+void sendMessage(const ServiceAddress, const Message);
 
 #endif /* COMMUNICATION_MESSAGEROUTER_H_ */
