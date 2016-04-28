@@ -58,9 +58,8 @@ int main(void)
 	registerOneShotTimer(0, &timerCallback1);
 	registerOneShotTimer(-1568, &timerCallback1);
 	registerOneShotTimer(1007, &timerCallback1);
-	registerOneShotTimer(3007, &timerCallback1);
-	registerPeriodicTimer(3000, &timerCallback2);
-	registerPeriodicTimer(4000, &timerCallback3);
+	registerPeriodicTimer(1000, &timerCallback2);
+	registerPeriodicTimer(1000, &timerCallback3);
 
 	while(true)
 	{

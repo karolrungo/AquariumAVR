@@ -10,7 +10,20 @@
 
 typedef enum ServiceAddress
 {
-	LCD_Service
+	MAIN,
+	LCD_Service,
+	DS18B20_Service
 } ServiceAddress;
+
+static inline char* toString(enum ServiceAddress p_address)
+{
+	static char *strings[] = {
+			"MAIN",
+			"LCD_Service",
+			"DS18B20_Service"
+    };
+
+    return strings[p_address];
+}
 
 #endif /* COMMUNICATION_SERVICEADDRESSES_H_ */

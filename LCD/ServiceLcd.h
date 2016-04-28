@@ -5,25 +5,12 @@
  *      Author: Karol
  */
 
-#ifndef LCD_SERVICELCD_H_
-#define LCD_SERVICELCD_H_
+#ifndef LCD_SERVICE_H_
+#define LCD_SERVICE_H_
 
-#include "lcd44780.h"
 #include "../Communication/MessageData.h"
-#include "../Utilities/Logger.h"
 
-void handleLcdBackground(const MessageData p_msgData)
-{
-	if(p_msgData.lcdBackground.turnOn)
-	{
-		LOG_Line("ON");
-		lcd_backgroundLedOn();
-	}
-	else
-	{
-		LOG_Line("OFF");
-		lcd_backgroundLedOff();
-	}
-}
+void initLcd();
+void handleLcdBackground(const MessageData p_msgData);
 
-#endif /* LCD_SERVICELCD_H_ */
+#endif /* LCD_SERVICE_H_ */

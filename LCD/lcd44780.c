@@ -21,7 +21,6 @@
 
 #include "lcd44780.h"
 #include "../Utilities/PinDefinitions.h"
-#include "../Utilities/Logger.h"
 
 // makrodefinicje operacji na sygna³ach steruj¹cych RS,RW oraz E
 
@@ -479,7 +478,6 @@ void lcd_blink_off(void)
 //----------------------------------------------------------------------------------------
 void lcd_init(void)
 {
-	LOG_Line("LCD initialization started");
 	// inicjowanie pinów portów ustalonych do pod³¹czenia z wyœwietlaczem LCD
 	// ustawienie wszystkich jako wyjœcia
 	data_dir_out();
@@ -523,7 +521,7 @@ void lcd_init(void)
 	lcd_cls();
 
 	lcd_backgroundLedOn();
-	LOG_Line("LCD initialization finished");
+
 }
 
 void lcd_backgroundLedOn()

@@ -8,7 +8,6 @@
 #ifndef COMMUNICATION_MESSAGES_LCDBACKGROUND_H_
 #define COMMUNICATION_MESSAGES_LCDBACKGROUND_H_
 
-#include <avr/io.h>
 #include <stdbool.h>
 
 typedef struct LcdBackround

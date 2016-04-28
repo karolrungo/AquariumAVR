@@ -14,3 +14,11 @@ Message buildMessageLcdBackground(bool p_turnOn)
 	return l_msg;
 }
 
+Message buildMessageDS18B20TemperatureRequest(uint8_t p_sensorNumber)
+{
+	Message l_msg;
+	l_msg.msgType = MSG_DS18B20_TEMPERATURE_REQ;
+	l_msg.msgData.ds1820SensorNumber = p_sensorNumber;
+	return l_msg;
+}
+
