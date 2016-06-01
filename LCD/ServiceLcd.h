@@ -12,5 +12,6 @@
 
 void initLcd();
 void handleLcdBackground(const MessageData p_msgData);
+void handleLcdDisplayTemperature();
 
 #endif /* LCD_SERVICE_H_ */

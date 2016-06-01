@@ -20,7 +20,6 @@
 #include "LCD/ServiceLcd.h"
 #include "LED_SERVICE/led.h"
 
-#include "LCD/lcd44780.h"
 #include "Timers/SoftwareTimer.h"
 
 void timerCallback1()
@@ -29,14 +28,14 @@ void timerCallback1()
 }
 void timerCallback2()
 {
+	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(1));
 	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(0));
 }
+
 void timerCallback3()
 {
-	lcd_cls();
-	lcd_int(temperature);
-	lcd_str(".");
-	lcd_int(temperature_fract_bits);
+	sendMessage(MAIN, buildMessageLcdDisplayTemperature());
+	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(2));
 }
 
 int main(void)

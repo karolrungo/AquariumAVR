@@ -10,8 +10,10 @@
 
 #include <avr/io.h>
 
-uint8_t temperature;
-uint8_t temperature_fract_bits;
-uint8_t subzero;
+#include "Temperature.h"
+
+#define MAX_SENSOR_NUMBER 4
+
+Temperature temperature[MAX_SENSOR_NUMBER];
 
 #endif /* AQUARIUMDATA_AQUARIUMDATA_H_ */

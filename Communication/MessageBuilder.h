@@ -13,6 +13,7 @@
 #include "Message.h"
 
 Message buildMessageLcdBackground(bool p_turnOn);
+Message buildMessageLcdDisplayTemperature();
 Message buildMessageDS18B20TemperatureRequest(uint8_t p_sensorNumber);
 
 #endif /* COMMUNICATION_MESSAGEBUILDER_H_ */

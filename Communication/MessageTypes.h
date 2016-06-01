@@ -11,13 +11,15 @@
 typedef enum MessageType
 {
 	MSG_LCD_BACKGROUND,
-	MSG_DS18B20_TEMPERATURE_REQ
+	MSG_LCD_DISPLAY_TEMPERATURE,
+	MSG_DS18B20_TEMPERATURE_REQ,
 } MessageType;
 
 static inline char* msgType2String(enum MessageType p_msgType)
 {
     static char *strings[] = {
 			"MSG_LCD_BACKGROUND",
+			"MSG_LCD_DISPLAY_TEMPERATURE",
 			"MSG_DS18B20_TEMPERATURE_REQ"
     };
 

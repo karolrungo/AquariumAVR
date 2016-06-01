@@ -15,7 +15,7 @@ typedef enum ServiceAddress
 	DS18B20_Service
 } ServiceAddress;
 
-static inline char* toString(enum ServiceAddress p_address)
+static inline char* serviceAddressToString(enum ServiceAddress p_address)
 {
 	static char *strings[] = {
 			"MAIN",
