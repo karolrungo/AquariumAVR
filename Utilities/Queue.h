@@ -10,9 +10,20 @@
 
 #include <stdbool.h>
 
-void Enqueue(int x);
-void Dequeue();
-int Front();
-bool isEmpty();
+typedef struct Node {
+	int data;
+	struct Node* next;
+} Node;
+
+typedef struct Queue
+{
+	Node* front;
+	Node* tail;
+} Queue;
+
+void enqueue(Queue* p_queue, uint8_t x);
+void dequeue(Queue* p_queue);
+int front(const Queue p_queue);
+bool isEmpty(const Queue p_queue);
 
 #endif /* UTILITIES_QUEUE_H_ */

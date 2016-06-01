@@ -12,54 +12,51 @@
 #include "Queue.h"
 #include "Logger.h"
 
-struct Node {
-	int data;
-	struct Node* next;
-};
-// Two glboal variables to store address of front and rear nodes.
-struct Node* front = NULL;
-struct Node* rear = NULL;
-
-// To Enqueue an integer
-void Enqueue(int x) {
-	struct Node* temp =
-		(struct Node*)malloc(sizeof(struct Node));
-	temp->data =x;
+void enqueue(Queue* p_queue, uint8_t x)
+{
+	struct Node* temp = (Node*)malloc(sizeof(Node));
+	temp->data = x;
 	temp->next = NULL;
-	if(front == NULL && rear == NULL){
-		front = rear = temp;
+	if(p_queue->front == NULL && p_queue->tail == NULL)
+	{
+		p_queue->front = p_queue->tail = temp;
 		return;
 	}
-	rear->next = temp;
-	rear = temp;
+	p_queue->tail->next = temp;
+	p_queue->tail = temp;
 }
 
-// To Dequeue an integer.
-void Dequeue() {
-	struct Node* temp = front;
-	if(front == NULL) {
+
+void dequeue(Queue* p_queue)
+{
+	struct Node* temp = p_queue->front;
+
+	if(p_queue->front == NULL)
+	{
 		LOG_INFO("Queue is Empty");
 		return;
 	}
-	if(front == rear) {
-		front = rear = NULL;
+	if(p_queue->front == p_queue->tail)
+	{
+		p_queue->front = p_queue->tail = NULL;
 	}
-	else {
-		front = front->next;
+	else
+	{
+		p_queue->front = p_queue->front->next;
 	}
 	free(temp);
 }
 
-int Front() {
-	if(front == NULL) {
+int front(const Queue p_queue)
+{
+	if(p_queue.front == NULL) {
 		LOG_INFO("Queue is empty\n");
 		return -1;
 	}
-	return front->data;
+	return p_queue.front->data;
 }
 
-bool isEmpty()
+bool isEmpty(const Queue p_queue)
 {
-	if(front == NULL) return true;
-	else return false;
+	return (p_queue.front == NULL) ? true : false;
 }
