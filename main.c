@@ -8,11 +8,11 @@
 #define MAIN_C_
 
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 #include "AquariumData/AquariumData.h"
 
 #include "Utilities/Logger.h"
-#include "1Wire/ds18x20.h"
 
 #include "Communication/MessageRouter.h"
 #include "Communication/MessageBuilder.h"
@@ -20,22 +20,25 @@
 #include "LCD/ServiceLcd.h"
 #include "LED_SERVICE/led.h"
 
+#include "IR_DECODE/Service.h"
+#include "IR_DECODE/ir_decode.h"
+
 #include "Timers/SoftwareTimer.h"
 
-void timerCallback1()
-{
-	sendMessage(MAIN, buildMessageLcdBackground(true));
-}
+//to remove
+#include "LCD/lcd44780.h"
+#include "UART/uart.h"
+
 void timerCallback2()
 {
 	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(1));
 	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(0));
+	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(2));
 }
 
 void timerCallback3()
 {
 	sendMessage(MAIN, buildMessageLcdDisplayTemperature());
-	sendMessage(MAIN, buildMessageDS18B20TemperatureRequest(2));
 }
 
 int main(void)
@@ -44,20 +47,19 @@ int main(void)
 	LOG_init();
 
 	initLcd();
+	ir_init();	/* inicjalizacja dekodowania IR */
 	initSoftwareTimers();
 
 	setAlarmLedAsOutput();
 	setAlarmLedOff();
 
-	registerOneShotTimer(0, &timerCallback1);
-	registerOneShotTimer(-1568, &timerCallback1);
-	registerPeriodicTimer(1007, &timerCallback1);
 	registerPeriodicTimer(1000, &timerCallback2);
 	registerPeriodicTimer(1000, &timerCallback3);
 
 	while(true)
 	{
 		softwareTimersEvents();
+		irKeyEvents();
 	}
 	return 0;
 }

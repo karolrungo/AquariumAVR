@@ -8,11 +8,9 @@
 #ifndef COMMUNICATION_MESSAGEBUILDER_H_
 #define COMMUNICATION_MESSAGEBUILDER_H_
 
-#include <stdbool.h>
-
 #include "Message.h"
 
-Message buildMessageLcdBackground(bool p_turnOn);
+Message buildMessageLcdBackground(LcdBackround p_state);
 Message buildMessageLcdDisplayTemperature();
 Message buildMessageDS18B20TemperatureRequest(uint8_t p_sensorNumber);
 

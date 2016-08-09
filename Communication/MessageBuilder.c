@@ -8,12 +8,12 @@
 
 #include "../Utilities/Logger.h"
 
-Message buildMessageLcdBackground(bool p_turnOn)
+Message buildMessageLcdBackground(LcdBackround p_state)
 {
 	Message l_msg;
 	l_msg.destinationAddress = LCD_Service;
 	l_msg.msgType = MSG_LCD_BACKGROUND;
-	l_msg.msgData.lcdBackground.turnOn = p_turnOn;
+	l_msg.msgData.lcdBackground = p_state;
 	return l_msg;
 }
 

@@ -8,11 +8,9 @@
 #ifndef COMMUNICATION_MESSAGES_LCDBACKGROUND_H_
 #define COMMUNICATION_MESSAGES_LCDBACKGROUND_H_
 
-#include <stdbool.h>
-
 typedef struct LcdBackround
 {
-	bool turnOn;
+	enum ELcdBackround {LCD_OFF, LCD_ON, LCD_TOGGLE} lcdBackground;
 }LcdBackround;
 
 #endif /* COMMUNICATION_MESSAGES_LCDBACKGROUND_H_ */

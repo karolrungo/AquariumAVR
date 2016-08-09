@@ -9,7 +9,7 @@
 #define UTILITIES_PINDEFINITIONS_H_
 
 ////// 1-WIRE //////////
-#define OW_PIN  PD6
+#define OW_PIN  PD5
 #define OW_IN   PIND
 #define OW_OUT  PORTD
 #define OW_DDR  DDRD

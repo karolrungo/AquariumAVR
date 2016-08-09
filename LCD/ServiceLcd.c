@@ -20,15 +20,33 @@ void initLcd()
 
 void handleLcdBackground(const MessageData p_msgData)
 {
-	if(p_msgData.lcdBackground.turnOn)
+	if(p_msgData.lcdBackground.lcdBackground == LCD_ON)
 	{
 		LOG_INFO("Lcd background ON");
 		lcd_backgroundLedOn();
+		lcdBackgrundOn = true;
 	}
-	else
+	if(p_msgData.lcdBackground.lcdBackground == LCD_OFF)
 	{
 		LOG_INFO("Lcd background OFF");
 		lcd_backgroundLedOff();
+		lcdBackgrundOn = false;
+	}
+	if(p_msgData.lcdBackground.lcdBackground == LCD_TOGGLE)
+	{
+		LOG_INFO("Lcd background Toggle");
+		if(lcdBackgrundOn == false)
+		{
+			LOG_INFO("Lcd background ON");
+			lcd_backgroundLedOn();
+			lcdBackgrundOn = true;
+		}
+		else
+		{
+			LOG_INFO("Lcd background OFF");
+			lcd_backgroundLedOff();
+			lcdBackgrundOn = false;
+		}
 	}
 }
 

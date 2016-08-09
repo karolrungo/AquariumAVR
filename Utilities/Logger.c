@@ -10,7 +10,7 @@
 #include "../UART/uart.h"
 #include "Logger.h"
 
-//#define DEBUG_LOGS_ENABLED
+#define DEBUG_LOGS_ENABLED
 #define INFO_LOGS_ENABLED
 
 #define MAX_MESSAGE_LEN 128
